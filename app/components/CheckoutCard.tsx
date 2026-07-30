@@ -19,6 +19,8 @@ export default function CheckoutCard({
   slug,
 }: CheckoutCardProps) {
   const [quantity, setQuantity] = useState(1);
+const [fullName, setFullName] = useState("");
+const [email, setEmail] = useState("");
 
   const total = quantity * price;
 
@@ -46,7 +48,33 @@ export default function CheckoutCard({
           ${price}
         </h2>
       </div>
+<div>
+  <label className="block mb-2 font-semibold">
+    Full Name
+  </label>
 
+  <input
+    type="text"
+    value={fullName}
+    onChange={(e) => setFullName(e.target.value)}
+    placeholder="Enter your full name"
+    className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-3"
+  />
+</div>
+
+<div>
+  <label className="block mb-2 font-semibold">
+    Email Address
+  </label>
+
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    placeholder="Enter your email"
+    className="w-full rounded-lg bg-slate-800 border border-slate-700 px-4 py-3"
+  />
+</div>
       <div>
         <p className="mb-3 font-semibold">Quantity</p>
 

@@ -1,6 +1,9 @@
 import EventCard from "./EventCard";
+import { getEvents } from "@/lib/events";
 
-export default function FeaturedEvents() {
+export default async function FeaturedEvents() {
+  const events = await getEvents();
+
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
       <h2 className="text-4xl font-bold mb-10">
@@ -8,32 +11,17 @@ export default function FeaturedEvents() {
       </h2>
 
       <div className="grid md:grid-cols-3 gap-8">
-        <EventCard
-          title="FIFA World Cup 2026"
-          location="New York, USA"
-          date="July 19, 2026"
-          price="$250"
-          image="/images/worldcup.jpeg"
-          slug="world-cup-2026"
-        />
-
-        <EventCard
-          title="Taylor Swift"
-          location="London, UK"
-          date="August 15, 2026"
-          price="$180"
-          image="/images/taylorswift.jpeg"
-          slug="taylor-swift"
-        />
-
-        <EventCard
-          title="NBA Finals"
-          location="Los Angeles, USA"
-          date="June 8, 2026"
-          price="$320"
-          image="/images/nbafinals.jpeg"
-          slug="nba-finals"
-        />
+        {events.map((event) => (
+          <EventCard
+            key={event.id}
+            title={event.title}
+            location={event.location}
+            date={event.date}
+            price={`$${event.price}`}
+            image={event.image}
+            slug={event.slug}
+          />
+        ))}
       </div>
     </section>
   );

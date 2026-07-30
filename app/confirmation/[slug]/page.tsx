@@ -59,7 +59,10 @@ export default async function ConfirmationPage({
           </div>
 <PaymentStatus />
 
-<PaymentProofUpload />
+<PaymentProofUpload
+  eventTitle={event.title}
+  amount={Number(event.price.replace("$", ""))}
+/>
 
 <Link
   href="/"
