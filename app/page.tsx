@@ -1,12 +1,14 @@
-import Navbar from "./components/Navbar";
-import FeaturedEvents from "./components/FeaturedEvents";
-import WhyChooseUs from "./components/WhyChooseUs";
+import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import FeaturedEvents from "@/components/FeaturedEvents";
+import WhyChooseUs from "@/components/WhyChooseUs";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <Navbar />
 
+      {/* HERO SECTION */}
       <section className="max-w-6xl mx-auto text-center py-24 px-6">
         <p className="text-yellow-400 uppercase tracking-[0.3em] font-semibold">
           Welcome to Ticatility
@@ -48,7 +50,60 @@ export default function Home() {
           </button>
         </div>
       </section>
+
+      {/* ACCOMMODATION ASSISTANCE */}
+      <section className="max-w-6xl mx-auto px-6 pb-20">
+        <div className="relative overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-blue-950 via-slate-900 to-slate-950 p-8 md:p-12 shadow-2xl">
+
+          {/* Decorative glow */}
+          <div className="absolute -top-24 -right-24 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl" />
+
+          <div className="relative z-10 grid md:grid-cols-[1fr_auto] gap-10 items-center">
+
+            <div>
+              <div className="inline-flex items-center gap-2 bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 px-4 py-2 rounded-full text-sm font-semibold mb-5">
+                🏨 Travel Assistance
+              </div>
+
+              <h2 className="text-3xl md:text-4xl font-extrabold leading-tight">
+                Need Accommodation for Your Event?
+              </h2>
+
+              <p className="mt-5 text-slate-300 text-lg leading-relaxed max-w-3xl">
+                Traveling from out of town for an event? Ticatility can
+                help you find suitable hotels and short-stay accommodation
+                close to your event venue.
+              </p>
+
+              <p className="mt-3 text-slate-400">
+                Contact our support team and tell us which event you're
+                attending. We'll help you find accommodation options based
+                on your location, dates, and preferences.
+              </p>
+            </div>
+
+            <div className="flex md:flex-col gap-3 md:min-w-[190px]">
+              <Link
+                href="/contact"
+                className="bg-yellow-400 hover:bg-yellow-300 text-black px-7 py-4 rounded-xl font-bold text-center transition"
+              >
+                Contact Support
+              </Link>
+
+              <p className="text-xs text-slate-500 text-center">
+                We're here to help
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURED EVENTS */}
       <FeaturedEvents />
+
+      {/* WHY CHOOSE US */}
       <WhyChooseUs />
     </main>
   );

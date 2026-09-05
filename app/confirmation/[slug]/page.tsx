@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { events } from "../../data/events";
-import PaymentProofUpload from "../../components/PaymentProofUpload";
-import PaymentStatus from "../../components/PaymentStatus";
+import { getEventBySlug } from "@/lib/events";
+import PaymentProofUpload from "@/components/PaymentProofUpload";
+import PaymentStatus from "@/components/PaymentStatus";
 
 export default async function ConfirmationPage({
   params,
@@ -10,7 +10,7 @@ export default async function ConfirmationPage({
 }) {
   const { slug } = await params;
 
-  const event = events.find((event) => event.slug === slug);
+  const event = await getEventBySlug(slug);
 
   if (!event) {
     return (
@@ -57,19 +57,20 @@ export default async function ConfirmationPage({
             </ul>
 
           </div>
-<PaymentStatus />
 
-<PaymentProofUpload
-  eventTitle={event.title}
-  amount={Number(event.price.replace("$", ""))}
-/>
+          <PaymentStatus />
 
-<Link
-  href="/"
-  className="inline-block mt-10 bg-blue-600 hover:bg-blue-700 px-10 py-4 rounded-xl font-bold"
->
-  Back to Home
-</Link>
+          <PaymentProofUpload
+            eventTitle={event.title}
+            amount={Number(event.price)}
+          />
+
+          <Link
+            href="/"
+            className="inline-block mt-10 bg-blue-600 hover:bg-blue-700 px-10 py-4 rounded-xl font-bold"
+          >
+            Back to Home
+          </Link>
 
         </div>
 

@@ -22,8 +22,8 @@ export const events = [
   },
 
   {
-    slug: "nba-finals",
-    title: "NBA Finals",
+  slug: "nba-finals-2026",
+  title: "NBA Finals",
     location: "Los Angeles, USA",
     date: "June 8, 2026",
     price: "$320",

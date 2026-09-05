@@ -1,8 +1,8 @@
 import EventCard from "./EventCard";
-import { getEvents } from "@/lib/events";
+import { getPublishedEvents } from "@/lib/events";
 
 export default async function FeaturedEvents() {
-  const events = await getEvents();
+  const events = await getPublishedEvents();
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
@@ -13,14 +13,16 @@ export default async function FeaturedEvents() {
       <div className="grid md:grid-cols-3 gap-8">
         {events.map((event) => (
           <EventCard
-            key={event.id}
-            title={event.title}
-            location={event.location}
-            date={event.date}
-            price={`$${event.price}`}
-            image={event.image}
-            slug={event.slug}
-          />
+  key={event.id}
+  title={event.title}
+  location={event.location}
+  venue={event.venue}
+  date={event.event_date}
+time={event.event_time}
+  price={`$${event.price}`}
+  image={event.image_url}
+  slug={event.slug}
+/>
         ))}
       </div>
     </section>
