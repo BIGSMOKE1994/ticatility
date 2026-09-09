@@ -66,8 +66,18 @@ export default async function PaymentsPage() {
                 </td>
 
                 <td className="p-4">
-                  Manual
-                </td>
+  <span
+    className={`px-3 py-1 rounded-full text-sm font-semibold ${
+      payment.payment_method === "PayPal"
+        ? "bg-blue-100 text-blue-700"
+        : payment.payment_method === "Crypto"
+        ? "bg-green-100 text-green-700"
+        : "bg-gray-100 text-gray-700"
+    }`}
+  >
+    {payment.payment_method || "Unknown"}
+  </span>
+</td>
 
                 <td className="p-4">
                   <span

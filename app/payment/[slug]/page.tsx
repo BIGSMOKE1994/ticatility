@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { getEventBySlug } from "@/lib/events";
 import { wallet } from "@/config/wallet";
-import PaymentQRCode from "@/components/PaymentQRCode";
-import PaymentProofUpload from "@/components/PaymentProofUpload";
+import { paypal } from "@/config/paypal";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import PaymentMethodSelector from "@/components/PaymentMethodSelector";
 
 export default async function PaymentPage({
   params,
@@ -27,12 +27,18 @@ export default async function PaymentPage({
     );
   }
 
-  // Get the actual order
-  const { data: orderData, error: orderError } = await supabaseAdmin
-    .from("orders")
-    .select("order_number, event_slug, quantity, total_price")
-    .eq("order_number", order)
-    .single();
+  // -----------------------------------------
+  // GET THE ACTUAL ORDER
+  // -----------------------------------------
+
+  const { data: orderData, error: orderError } =
+    await supabaseAdmin
+      .from("orders")
+      .select(
+        "order_number, event_slug, quantity, total_price"
+      )
+      .eq("order_number", order)
+      .single();
 
   if (orderError || !orderData) {
     return (
@@ -44,7 +50,10 @@ export default async function PaymentPage({
     );
   }
 
-  // Make sure this order belongs to this event
+  // -----------------------------------------
+  // MAKE SURE ORDER BELONGS TO THIS EVENT
+  // -----------------------------------------
+
   if (orderData.event_slug !== slug) {
     return (
       <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
@@ -63,65 +72,72 @@ export default async function PaymentPage({
       <div className="max-w-4xl mx-auto px-6 py-20">
 
         <h1 className="text-5xl font-extrabold mb-10">
-          💳 Crypto Payment
+          💳 Payment
         </h1>
 
         <div className="bg-slate-900 rounded-2xl p-8 space-y-8">
 
+          {/* EVENT */}
+
           <div>
-            <p className="text-slate-400">Event</p>
+            <p className="text-slate-400">
+              Event
+            </p>
 
             <h2 className="text-3xl font-bold">
               {event.title}
             </h2>
           </div>
 
+          {/* QUANTITY */}
+
           <div>
-            <p className="text-slate-400">Quantity</p>
+            <p className="text-slate-400">
+              Quantity
+            </p>
 
             <h2 className="text-2xl font-bold">
-              {quantity} {quantity === 1 ? "Ticket" : "Tickets"}
+              {quantity}{" "}
+              {quantity === 1
+                ? "Ticket"
+                : "Tickets"}
             </h2>
           </div>
 
+          {/* AMOUNT */}
+
           <div>
-            <p className="text-slate-400">Amount Due</p>
+            <p className="text-slate-400">
+              Amount Due
+            </p>
 
             <h2 className="text-4xl text-green-400 font-bold">
               ${total.toFixed(2)}
             </h2>
           </div>
 
+          {/* ORDER NUMBER */}
+
           <div>
-            <p className="text-slate-400">Order Number</p>
+            <p className="text-slate-400">
+              Order Number
+            </p>
 
             <div className="bg-slate-800 rounded-xl p-4 mt-2">
               {orderData.order_number}
             </div>
           </div>
 
-          <div>
-            <p className="text-slate-400">Wallet Address</p>
+          {/* PAYMENT METHODS */}
 
-            <div className="bg-slate-800 rounded-xl p-4 mt-2 break-all">
-              {wallet.address}
-            </div>
-          </div>
-
-          <PaymentQRCode value={wallet.address} />
-
-          <PaymentProofUpload
+          <PaymentMethodSelector
             orderNumber={orderData.order_number}
+            eventSlug={slug}
             eventTitle={event.title}
             amount={total}
+            walletAddress={wallet.address}
+            paypalEmail={paypal.email}
           />
-
-          <Link
-            href={`/confirmation/${slug}`}
-            className="block w-full text-center bg-green-600 hover:bg-green-700 py-4 rounded-xl text-xl font-bold"
-          >
-            I've Sent Payment
-          </Link>
 
         </div>
       </div>

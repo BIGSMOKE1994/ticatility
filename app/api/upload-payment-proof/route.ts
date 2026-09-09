@@ -7,11 +7,39 @@ export async function POST(req: NextRequest) {
 
     const file = formData.get("file");
     const orderNumber = formData.get("orderNumber");
+    const paymentMethod = formData.get("paymentMethod");
 
-    if (!(file instanceof File) || typeof orderNumber !== "string") {
+    // -----------------------------------------
+    // VALIDATE REQUIRED FIELDS
+    // -----------------------------------------
+
+    if (
+      !(file instanceof File) ||
+      typeof orderNumber !== "string" ||
+      typeof paymentMethod !== "string"
+    ) {
       return NextResponse.json(
         {
-          error: "Payment proof file and order number are required.",
+          error:
+            "Payment proof file, order number, and payment method are required.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    // -----------------------------------------
+    // VALIDATE PAYMENT METHOD
+    // -----------------------------------------
+
+    if (
+      paymentMethod !== "Crypto" &&
+      paymentMethod !== "PayPal"
+    ) {
+      return NextResponse.json(
+        {
+          error: "Invalid payment method.",
         },
         {
           status: 400,
@@ -40,7 +68,8 @@ export async function POST(req: NextRequest) {
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         {
-          error: "The payment screenshot must be smaller than 10 MB.",
+          error:
+            "The payment screenshot must be smaller than 10 MB.",
         },
         {
           status: 400,
@@ -85,7 +114,8 @@ export async function POST(req: NextRequest) {
     ) {
       return NextResponse.json(
         {
-          error: "This order has already been approved.",
+          error:
+            "This order has already been approved.",
         },
         {
           status: 400,
@@ -144,7 +174,7 @@ export async function POST(req: NextRequest) {
     }
 
     // -----------------------------------------
-    // STORE STORAGE PATH
+    // STORE PAYMENT PROOF + PAYMENT METHOD
     // -----------------------------------------
 
     const { error: updateError } =
@@ -152,6 +182,7 @@ export async function POST(req: NextRequest) {
         .from("payments")
         .update({
           screenshot_url: fileName,
+          payment_method: paymentMethod,
         })
         .eq("order_number", orderNumber)
         .eq("status", "Pending");
@@ -184,6 +215,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       fileName,
+      paymentMethod,
     });
   } catch (error: any) {
     console.error(

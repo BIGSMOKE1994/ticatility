@@ -6,12 +6,16 @@ type PaymentProofUploadProps = {
   orderNumber: string;
   eventTitle: string;
   amount: number;
+  paymentMethod: "Crypto" | "PayPal";
+  onUploadSuccess?: () => void;
 };
 
 export default function PaymentProofUpload({
   orderNumber,
   eventTitle,
   amount,
+  paymentMethod,
+  onUploadSuccess,
 }: PaymentProofUploadProps) {
   const [uploading, setUploading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -35,6 +39,7 @@ export default function PaymentProofUpload({
 
       formData.append("file", file);
       formData.append("orderNumber", orderNumber);
+      formData.append("paymentMethod", paymentMethod);
 
       // -----------------------------------------
       // SEND TO SECURE SERVER API
@@ -65,6 +70,11 @@ export default function PaymentProofUpload({
       // -----------------------------------------
 
       setSuccess(true);
+
+      // Tell the payment method selector
+      // that proof has been uploaded.
+      onUploadSuccess?.();
+
     } catch (error) {
       console.error(
         "Payment proof upload error:",
@@ -83,11 +93,12 @@ export default function PaymentProofUpload({
     <div className="bg-slate-800 rounded-xl p-6 mt-8">
 
       <h3 className="text-2xl font-bold">
-        Upload Payment Proof
+        Upload {paymentMethod} Payment Proof
       </h3>
 
       <p className="text-slate-400 mt-2">
-        Upload your payment screenshot.
+        Upload your {paymentMethod.toLowerCase()} payment
+        screenshot after making your payment.
       </p>
 
       <input
@@ -106,7 +117,7 @@ export default function PaymentProofUpload({
 
       {success && (
         <p className="text-green-400 mt-4">
-          ✅ Screenshot uploaded successfully!
+          ✅ Payment proof uploaded successfully!
         </p>
       )}
 
