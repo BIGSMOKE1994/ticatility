@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import FeaturedEvents from "@/components/FeaturedEvents";
@@ -55,7 +57,6 @@ export default function Home() {
       <section className="max-w-6xl mx-auto px-6 pb-20">
         <div className="relative overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-blue-950 via-slate-900 to-slate-950 p-8 md:p-12 shadow-2xl">
 
-          {/* Decorative glow */}
           <div className="absolute -top-24 -right-24 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl" />
           <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-yellow-400/10 rounded-full blur-3xl" />
 
