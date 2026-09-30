@@ -151,7 +151,7 @@ export default function EventCard({
 
         {/* View Tickets */}
         <Link
-          href={`/checkout/${slug}`}
+          href={`/events/${slug}`}
           className="mt-5 block w-full rounded-lg bg-blue-600 px-6 py-3 text-center font-bold text-white transition hover:bg-blue-700"
         >
           View Tickets

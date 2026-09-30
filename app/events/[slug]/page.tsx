@@ -44,7 +44,8 @@ export default async function EventPage({
   const { slug } = await params;
 
   const event = await getEventBySlug(slug);
-
+console.log("EVENT DATA:", event);
+console.log("EVENT DESCRIPTION:", event?.description);
   if (!event) {
     return (
       <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
